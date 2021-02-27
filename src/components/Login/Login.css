@@ -1,0 +1,149 @@
+.popup__title {
+  font-family: "Roboto", "Arial", "sans-serif";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.17;
+  color: #000000;
+  margin: 0;
+  margin-left: 36px;
+}
+
+.popup__title_login {
+  margin-top: 34px;
+}
+
+.popup__subtitle {
+  display: inline-block;
+  width: 66px;
+  height: 14px;
+  font-family: "Inter", "Arial", "sans-serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.25;
+  color: #2f71e5;
+  margin-left: 36px;
+}
+
+.popup__subtitle_email {
+  margin-top: 22px;
+  margin-bottom: 9px;
+}
+
+.popup__subtitle_password {
+  margin-top: 13px;
+  margin-bottom: 8px;
+}
+
+.popup__text {
+  font-family: "Inter", "Arial", "sans-serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 121%;
+  color: #000000;
+}
+
+.popup__text_input {
+  display: block;
+  width: 358px;
+  padding-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 1);
+  box-sizing: border-box;
+  margin-left: 36px;
+}
+
+.popup__text_type_error {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.popup__text-error {
+  display: block;
+  height: 18px;
+  margin: 0;
+  padding: 3px 36px 0;
+  font-family: "Inter", "Arial", "sans-serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 125%;
+  color: #ff0000;
+  box-sizing: border-box;
+  opacity: 0;
+}
+
+.popup__text-error_active {
+  opacity: 1;
+}
+
+.popup__send {
+  display: block;
+  border: none;
+  background-color: #2f71e5;
+  border-radius: 100px;
+  box-shadow: 0px 5px 15px rgba(14, 26, 57, 0.2);
+  color: white;
+  font-family: "Roboto", "Arial", "sans-serif";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.33;
+  text-align: center;
+  outline-style: none;
+}
+
+.popup__send:hover {
+  cursor: pointer;
+}
+
+.popup__send_inactive {
+  background: #e6e8eb;
+  pointer-events: none;
+  color: #b6bcbf;
+}
+
+.popup__send-login {
+  width: 360px;
+  height: 64px;
+  margin: 24px auto 16px;
+  padding: 0;
+}
+
+.popup__text_abz {
+  display: block;
+  width: 226px;
+  height: 20px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.popup__text_reg {
+  color: #2f71e5;
+}
+
+.popup__text_reg:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__text_input {
+    width: 288px;
+    margin: 0 auto;
+  }
+
+  .popup__subtitle {
+    margin-left: 16px;
+  }
+
+  .popup__title {
+    margin-left: 16px;
+  }
+
+  .popup__send-login {
+    width: 288px;
+    height: 64px;
+    margin: 16px auto;
+  }
+}

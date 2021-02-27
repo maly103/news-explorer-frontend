@@ -1,0 +1,29 @@
+.er__text {
+  display: block;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #ff0000;
+}
+
+.er__hidden {
+  display: none;
+}
+
+.popup__send-register {
+  width: 360px;
+  height: 64px;
+  margin: 8px auto 16px;
+  padding: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__send-register {
+      width: 288px;
+      height: 64px;
+      margin: 16px auto;
+  }
+}

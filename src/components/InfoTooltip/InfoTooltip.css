@@ -1,0 +1,36 @@
+.tooltip__title {
+  font-family: "Roboto", "Arial", "sans-serif";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.17;
+  color: #000000;
+  margin: 43px 0 14px 36px;
+}
+
+.tooltip__reg {
+  display: inline-block;
+  width: 228px;
+  font-family: "Inter", "Arial", "sans-serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #2f71e5;
+  margin: 0 0 51px 36px;
+}
+
+.tooltip__reg:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .tooltip__title {
+    margin: 43px 0 14px 16px;
+  }
+
+  .tooltip__reg {
+    margin:0 16px;
+  }
+
+}

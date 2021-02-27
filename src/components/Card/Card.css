@@ -1,0 +1,258 @@
+.elements__item {
+  position: relative;
+  width: 100%;
+  max-height: 576px;
+  background-color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  list-style-type: none;
+}
+
+.wrapper {
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  top: 24px;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.elements__disabled {
+  visibility: hidden;
+}
+
+.elements__mark {
+  background-image: url("../../images/rectangleNormal.svg");
+}
+
+.elements__mark-liked {
+  background-image: url("../../images/rectangleMarked.svg");
+}
+
+.elements__mark:hover {
+  background-image: url("../../images/rectangleHover.svg");
+  cursor: pointer;
+}
+
+.elements__mark:hover .tooltip {
+  opacity: 1;
+}
+
+.elements__size {
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  border: none;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.elements__img {
+  height: 272px;
+  width: 100%;
+  object-fit: cover;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  vertical-align: bottom;
+}
+
+.elements__data {
+  font-family: "Source Sans Pro", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 133%;
+  color: #b6bcbf;
+  margin: 20px 0 12px 24px;
+}
+
+.elements__footer {
+  padding: 0 24px 24px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.elements__wrapper {
+  height: 186px;
+}
+.elements__title {
+  font-family: "Roboto Slab", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 26px;
+  line-height: 115%;
+  color: #1a1b22;
+  margin: 0;
+}
+
+.elements__text {
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 137%;
+  color: #1a1b22;
+  margin: 16px 0 0 0;
+}
+
+.elements__source {
+  font-family: "Roboto Slab", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 125%;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #b6bcbf;
+  margin: 18px 0 0 0;
+}
+
+.elements__keyword {
+  display: block;
+  background: #ffffff;
+  border-radius: 10px;
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 171%;
+  text-align: center;
+  color: #000000;
+  height: 40px;
+  width: 88px;
+  margin: 0;
+  padding-top: 8px;
+  box-sizing: border-box;
+}
+
+.tooltip {
+  position: absolute;
+  right: 45px;
+  top: 0;
+  width: 182px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0px 10px 22px rgba(59, 74, 116, 0.1);
+  border-radius: 10px;
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  color: #000000;
+  opacity: 0;
+  transition: all 0.5s ease;
+  padding-top: 14px;
+  box-sizing: border-box;
+}
+
+.tooltip__disabled {
+  display: none;
+}
+
+.elements__trash {
+  background-image: url("../../images/trash.svg");
+}
+
+.elements__trash:hover {
+  background-image: url("../../images/trash_hover.svg");
+  cursor: pointer;
+}
+
+.elements__trash:hover .tooltip {
+  opacity: 1;
+}
+
+.tooltip__mark::after {
+  content: "Войдите, чтобы сохранять статьи";
+}
+
+.tooltip__trash::after {
+  content: "Убрать из сохранённых";
+  font-size: 12px;
+  line-height: 1.17;
+}
+
+@media screen and (max-width: 1280px) {
+  .elements__title {
+    font-size: 22px;
+    line-height: 110%;
+  }
+
+  .elements__img {
+    height: 150px;
+  }
+
+  .elements__footer {
+    padding: 0 16px 16px;
+  }
+
+  .elements__wrapper {
+    height: 170px;
+  }
+
+  .elements__data {
+    margin-top: 16px;
+  }
+
+  .elements__text {
+    margin-top: 10px;
+  }
+
+  .elements__source {
+    margin-top: 12px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .tooltip {
+    width: 150px;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .elements__title {
+    font-size: 22px;
+    line-height: 110%;
+  }
+
+  .elements__img {
+    height: 150px;
+  }
+
+  .elements__footer {
+    padding: 0 16px 16px;
+  }
+
+  .elements__wrapper {
+    height: 170px;
+  }
+
+  .elements__data {
+    margin-top: 16px;
+  }
+
+  .elements__text {
+    margin-top: 10px;
+  }
+
+  .elements__source {
+    margin-top: 12px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .tooltip {
+    width: 182px;
+  }
+}

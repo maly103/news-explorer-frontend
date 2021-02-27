@@ -1,0 +1,112 @@
+.block__news {
+  background: #f5f6f7;
+  padding: 0 calc((100% - 1232px) / 2);
+}
+
+.block__title {
+  display: inline-block;
+  max-width: 712px;
+  margin: 80px 0 64px;
+  font-family: "Roboto Slab", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 115%;
+  color: #1a1b22;
+}
+
+.elements {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(3, 400px);
+  grid-gap: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.button__show {
+  border: none;
+  height: 64px;
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 133%;
+  text-align: center;
+  outline: none;
+  padding: 0;
+}
+
+.button__show__more {
+  border-radius: 80px;
+  width: 288px;
+  color: #1a1b22;
+  background: #ffffff;
+  margin: 36px calc((100% - 288px) / 2) 80px;
+}
+
+.button__show__more::after {
+  content: "Показать еще";
+}
+
+.button__show__blocked::after {
+  content: "Залочено";
+}
+
+.button__show__more:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.button__show__blocked {
+  background: #e6e8eb;
+  border-radius: 100px;
+  width: 360px;
+  color: #b6bcbf;
+  margin: 36px calc((100% - 360px) / 2) 80px;
+}
+
+@media screen and (max-width: 1280px) {
+  .elements {
+    grid-template-columns: repeat(3, 300px);
+    grid-gap: 14px;
+  }
+
+  .block__news {
+    padding: 0 calc((100% - 928px) / 2);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .elements {
+    grid-template-columns: repeat(3, 224px);
+    grid-gap: 8px;
+  }
+
+  .block__news {
+    padding: 0 calc((100% - 688px) / 2);
+  }
+
+  .block__title {
+    margin: 40px 0 32px;
+    font-size: 30px;
+    line-height: 113%;
+    max-width: 336px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .elements {
+    grid-template-columns: repeat(1, 288px);
+    grid-gap: 10px;
+  }
+
+  .block__news {
+    padding: 0 calc((100% - 288px) / 2);
+  }
+
+  .block__title {
+    margin: 32px 0 24px;
+    max-width: 288px;
+  }
+}
