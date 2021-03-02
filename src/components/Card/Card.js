@@ -3,9 +3,21 @@ import "./Card.css";
 
 const Card = ({ card, isLogged, handleClick, pageSaved }) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+
   const pTitle = useRef(null);
   const pText = useRef(null);
   const wrap = useRef(null);
+  const sourceText = card.textNews.split(" ");
+
+  const updateDimensions = () => {
+    setWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
 
   let classKeyword;
   let classMark;
@@ -33,24 +45,39 @@ const Card = ({ card, isLogged, handleClick, pageSaved }) => {
   };
 
   useEffect(() => {
-    const heightTitle = pTitle.current.clientHeight;
-    const heightText = pText.current.clientHeight;
-    const heightWrap = wrap.current.clientHeight;
-    const target_height = heightWrap - heightTitle;
+    let heightText = pText.current.clientHeight;
+    let heightTitle = pTitle.current.clientHeight;
+    let heightWrap = pText.current.offsetTop + 42;
+    let heightBlock = pText.current.offsetParent.clientHeight;
+    let heightWrapper = wrap.current.clientHeight;
+    let heigthAccessText = heightWrapper - heightTitle - 23;
+    let useHeight = heightText + heightWrap;
 
-    if (heightText > target_height) {
-      const arrText = pText.current.innerHTML.split(" ");
-      const col = Math.floor((target_height / heightText) * arrText.length) - 1;
-      const newArr = arrText.slice([0], col);
+    const resizeText = (pText, chLength, more) => {
+      let newArr = pText.current.innerHTML.split(" ");
+      more
+        ? (newArr = sourceText.slice(0, newArr.length + chLength))
+        : (newArr = newArr.slice(0, newArr.length + chLength));
       newArr.push("...");
-      const testText = newArr.join(" ");
-      pText.current.innerHTML = testText;
+      pText.current.innerHTML = newArr.join(" ");
+    };
+
+    if (useHeight >= heightBlock) {
+      while (useHeight > heightBlock) {
+        resizeText(pText, -2, false);
+        useHeight = pText.current.clientHeight + pText.current.offsetTop + 42;
+      }
+    } else if (heightText < heigthAccessText) {
+      while (heightText < heigthAccessText) {
+        resizeText(pText, 1, true);
+        heightText = pText.current.clientHeight + 10;
+      }
     }
-  }, []);
+  }, [width, sourceText]);
 
   return (
     <li className="elements__item">
-      <section className="wrapper">
+      <div className="wrapper">
         <p className={classKeyword}>{card.keyword}</p>
         <div
           className={classMark}
@@ -58,7 +85,7 @@ const Card = ({ card, isLogged, handleClick, pageSaved }) => {
         >
           <span className={classTooltip}></span>
         </div>
-      </section>
+      </div>
       <img className="elements__img" alt="img" src={card.srcImg} />
       <p className="elements__data">{card.dateNews}</p>
       <div className="elements__footer">

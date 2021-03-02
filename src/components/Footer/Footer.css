@@ -32,7 +32,6 @@
   grid-template-columns: repeat(2, auto);
   grid-gap: 28px;
   align-self: center;
-  list-style-type: none;
 }
 
 .list__item {

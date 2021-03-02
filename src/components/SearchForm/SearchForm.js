@@ -15,6 +15,7 @@ const SearchForm = ({ onUpdateSearch }) => {
           className="search__input"
           type="text"
           name="poisk"
+          required
           placeholder="Еще не ввел текст"
           ref={inputSearch}
         />

@@ -25,6 +25,9 @@
 .search__input::placeholder {
   color: #b6bcbf;
 }
+.search__input::placeholder:hover {
+  color: #656768;
+}
 
 .search__send {
   width: 168px;
@@ -49,6 +52,13 @@
 .search__send:hover {
   cursor: pointer;
   background: #347eff;
+}
+
+.search__input:hover,
+.search__input:focus,
+.search__input:active {
+  cursor: pointer;
+  box-shadow: 0 0 20px #347eff;
 }
 
 .search__send:active,

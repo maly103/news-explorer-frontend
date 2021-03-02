@@ -221,21 +221,12 @@
 }
 
 @media screen and (max-width: 736px) {
-  .elements__title {
-    font-size: 22px;
-    line-height: 110%;
-  }
-
   .elements__img {
     height: 150px;
   }
 
   .elements__footer {
     padding: 0 16px 16px;
-  }
-
-  .elements__wrapper {
-    height: 170px;
   }
 
   .elements__data {

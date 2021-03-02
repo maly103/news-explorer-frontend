@@ -23,7 +23,7 @@ export function validateForm(data, block) {
 export const itemsCard = [
   {
     id: "1",
-    keyword: "природа",
+    keyword: "тест",
     srcImg: imgPath1,
     dateNews: "2 августа, 2019",
     titleNews: "Национальное достояние – парки",

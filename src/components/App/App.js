@@ -188,7 +188,7 @@ function App() {
           </Route>
 
           <Route path="/news">
-            {!loggedIn ? (
+           {!loggedIn ? (
               <Redirect exact to="/" />
             ) : (
               <SavedNews

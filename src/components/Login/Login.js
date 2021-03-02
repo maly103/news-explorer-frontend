@@ -29,14 +29,14 @@ const Login = ({ isOpen, onClose, handleLogin, handleClickRegister }) => {
           <input
             className="popup__text popup__text_input"
             type="email"
-            name="email"
+            name="pochta"
             required
             autoComplete="off"
             onChange={handleChange}
           />
           <span
             className="popup__text-error popup__text-error_active"
-            id="email-error"
+            id="pochta-error"
           >
             Неправильный формат email
           </span>
@@ -45,14 +45,14 @@ const Login = ({ isOpen, onClose, handleLogin, handleClickRegister }) => {
             className="popup__text popup__text_input"
             type="password"
             minLength="2"
-            name="password"
+            name="pass"
             required
             autoComplete="off"
             onChange={handleChange}
           />
           <span
             className="popup__text-error popup__text-error_active"
-            id="password-error"
+            id="pass-error"
           >
             Поле не может быть пустым
           </span>

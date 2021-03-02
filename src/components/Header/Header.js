@@ -48,7 +48,7 @@ const Header = ({
   return (
     <header className={headerClass}>
       <section className={headerLineClass}>
-        <Link className={headerLogoClass} exact to="/">
+        <Link className={headerLogoClass} to="/">
           NewsExplorer
         </Link>
 

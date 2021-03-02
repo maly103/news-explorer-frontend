@@ -9,8 +9,8 @@ const Footer = () => {
     <footer className="footer">
       <p className="footer__text">&copy; 2020 Supersite, Powered by News API</p>
 
-      <ul className="list">
-        <Link className="list__item" exact to="/">
+      <div className="list">
+        <Link className="list__item" to="/">
           Главная
         </Link>
         <a
@@ -21,8 +21,8 @@ const Footer = () => {
         >
           Яндекс.Практикум
         </a>
-      </ul>
-      <ul className="icon">
+      </div>
+      <div className="icon">
         <a
           className="icon__item"
           href="https://github.com/"
@@ -39,7 +39,7 @@ const Footer = () => {
         >
           <img src={IconFacebook} alt="facebook" />
         </a>
-      </ul>
+      </div>
     </footer>
   );
 };
