@@ -1,0 +1,121 @@
+.saved__news {
+  padding: 120px 0 56px 104px;
+  box-sizing: border-box;
+}
+
+.news__subtitle {
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 133%;
+  color: rgba(26, 27, 34, 0.5);
+  margin: 0;
+}
+
+.news__title {
+  display: block;
+  width: 530px;
+  height: 92px;
+  font-family: "Roboto Slab", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 115%;
+  color: #1a1b22;
+  margin: 28px 0 30px;
+}
+
+.news__keywords {
+  width: 712px;
+  height: 24px;
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 133%;
+  color: #1a1b22;
+  margin: 0;
+}
+
+.block__news {
+  background: #f5f6f7;
+}
+
+.gallery {
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(3, 400px);
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
+  justify-content: center;
+  margin: 0;
+  padding: 62px 0;
+}
+
+@media screen and (max-width: 1280px) {
+  .gallery {
+    grid-template-columns: repeat(3, 300px);
+    grid-gap: 14px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .saved__news {
+    padding: 90px 0 32px 40px;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(3, 224px);
+    grid-gap: 8px;
+  }
+
+  .news__title {
+    width: 336px;
+    height: 68px;
+    font-size: 30px;
+    line-height: 113%;
+    margin: 16px 0;
+  }
+
+  .news__subtitle {
+    font-size: 14px;
+    line-height: 171%;
+  }
+
+  .news__keywords {
+    width: 100%;
+    font-size: 14px;
+    line-height: 171%;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .saved__news {
+    padding: 64px 16px 32px;
+    margin: 0 auto;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(1, 288px);
+    grid-gap: 10px;
+  }
+
+  .news__title {
+    width: 288px;
+    height: 102px;
+  }
+
+  .news__subtitle {
+    width: 288px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 200%;
+  }
+
+  .news__keywords {
+    width: 288px;
+    font-size: 18px;
+    line-height: 133%;
+  }
+}

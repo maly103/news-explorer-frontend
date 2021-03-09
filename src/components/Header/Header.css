@@ -1,0 +1,242 @@
+.header {
+  width: 100%;
+  height: 80px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(196, 196, 196, 0.01);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 calc((100% - 1232px) / 2);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  margin: 0;
+}
+
+.header_dark {
+  box-shadow: inset 0px -1px 0px rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.header_light {
+  color: #1a1b22;
+  box-shadow: inset 0px -1px 0px #d1d2d6;
+}
+
+.header__logo {
+  font-family: "Roboto Slab", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.2;
+  display: block;
+  width: 200px;
+  align-self: center;
+  text-decoration: none;
+}
+
+.header__logo_light {
+  color: #1a1b22;
+}
+
+.header__logo_dark {
+  color: white;
+}
+
+.header__logo_mobile {
+  color: white;
+}
+
+.header__logo:hover {
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.header__button {
+  box-sizing: border-box;
+  border-radius: 100px;
+  padding: 12px;
+  align-self: center;
+  height: 48px;
+  background: transparent;
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.33;
+  margin: 0;
+}
+
+.header__button:hover {
+  opacity: 0.3;
+}
+
+.header__button_light {
+  border: 1px solid #1a1b22;
+  color: #1a1b22;
+}
+
+.header__button_dark {
+  border: 1px solid #ffffff;
+  color: white;
+}
+
+.header__button_out {
+  background-image: url("../../images/union_white.svg");
+  background-position: 90% 50%;
+  background-repeat: no-repeat;
+  padding: 12px 35px 0 12px;
+}
+
+.header__button_out-dark {
+  background-image: url("../../images/union_white.svg");
+}
+
+.header__button_out-light {
+  background-image: url("../../images/logout-dark.svg");
+}
+
+.menu__toggle {
+  width: 24px;
+  height: 24px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.menu__toggle {
+  display: none;
+}
+
+.menu__toggle_dark {
+  background-image: url("../../images/menu.svg");
+}
+.menu__toggle_light {
+  background-image: url("../../images/menuMobileLight.svg");
+}
+
+.menu__toggle_close-dark {
+  background-image: url("../../images/back.svg");
+}
+
+.menu__toggle_close-light {
+  background-image: url("../../images/backLight.svg");
+}
+
+.header__button:hover {
+  cursor: pointer;
+}
+
+.menu__img {
+  margin-left: 0.5em;
+}
+
+.header__nav {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-gap: 34px;
+  grid-auto-flow: column;
+  grid-auto-columns: auto;
+  padding: 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 1280px) {
+  .header {
+    padding: 0 calc((100% - 928px) / 2);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .header {
+    padding: 0 calc((100% - 688px) / 2);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    height: 66px;
+    padding: 0 16px;
+  }
+
+  .header__nav {
+    grid-gap: 16px;
+  }
+
+  .header__button {
+    height: 24px;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 8px 12px;
+    box-sizing: content-box;
+  }
+
+  .header__button_out {
+    padding: 8px 35px 8px 8px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    height: 56px;
+  }
+
+  .menu__toggle {
+    display: block;
+  }
+  .header__nav {
+    display: none;
+  }
+}
+/*/////////////////////mobile///////////////////////////////////*/
+.header__mobile {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 56px minmax(min-content, 230px);
+  grid-template-areas:
+    "logo"
+    "menu";
+  background: #1a1b22;
+  border-radius: 16px;
+  border: none;
+  height: auto;
+  padding: 0 16px;
+  max-height: 286px;
+  color: white;
+}
+
+.header__nav_mobile {
+  grid-area: menu;
+  padding: 16px 0 24px;
+  display: block;
+  color: white;
+}
+
+.header__logo_mobile {
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.header__line {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__line_mobile {
+  background: rgba(196, 196, 196, 0.01);
+  box-shadow: inset 0px -1px 0px rgba(255, 255, 255, 0.2);
+}
+
+.header__button_mobile {
+  margin: 22px auto 0;
+  width: 288px;
+  padding: 15px 0;
+  border: 1px solid #ffffff;
+  color: white;
+  font-size: 18px;
+  line-height: 133%;
+  text-align: center;
+}

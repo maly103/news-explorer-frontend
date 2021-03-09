@@ -1,0 +1,45 @@
+.notfounded {
+  height: 374px;
+  background-color: #f5f6f7;
+  display: flex;
+  flex-direction: column;
+  padding: 86px 0 80px;
+  box-sizing: border-box;
+}
+
+.notfounded__img {
+  margin-bottom: 24px;
+}
+
+.notfounded__title {
+  display: block;
+  margin: 0 auto;
+  font-family: "Roboto Slab", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 26px;
+  line-height: 115%;
+  text-align: center;
+  color: #1a1b22;
+}
+
+.notfounded__text {
+  display: block;
+  width: 356px;
+  margin: 16px auto 0;
+  font-family: "Roboto", "Times New Roman", "Times", "serif";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 133%;
+  text-align: center;
+  color: #b6bcbf;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 600px) {
+  .notfounded__text {
+    width: 288px;
+  }
+}
