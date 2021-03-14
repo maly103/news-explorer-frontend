@@ -1,14 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { formatDateApi } from "../../utils/utils";
 import "./Card.css";
 
-const Card = ({ card, isLogged, handleClick, pageSaved }) => {
-  const [isLiked, setIsLiked] = useState(false);
+const Card = ({ card, isLogged, handleClick }) => {
+  let history = useHistory();
+  let pageSaved = history.location.pathname === "/news";
+  const [isLiked, setIsLiked] = useState(card.isLiked);
   const [width, setWidth] = useState(window.innerWidth);
 
   const pTitle = useRef(null);
   const pText = useRef(null);
   const wrap = useRef(null);
-  const sourceText = card.textNews.split(" ");
 
   const updateDimensions = () => {
     setWidth(window.innerWidth);
@@ -37,6 +40,7 @@ const Card = ({ card, isLogged, handleClick, pageSaved }) => {
       isLogged ? "tooltip__disabled" : ""
     }`;
   }
+
   const handleCardClick = () => {
     if (!pageSaved) {
       setIsLiked(!isLiked);
@@ -47,33 +51,28 @@ const Card = ({ card, isLogged, handleClick, pageSaved }) => {
   useEffect(() => {
     let heightText = pText.current.clientHeight;
     let heightTitle = pTitle.current.clientHeight;
-    let heightWrap = pText.current.offsetTop + 42;
-    let heightBlock = pText.current.offsetParent.clientHeight;
+
     let heightWrapper = wrap.current.clientHeight;
     let heigthAccessText = heightWrapper - heightTitle - 23;
-    let useHeight = heightText + heightWrap;
 
-    const resizeText = (pText, chLength, more) => {
-      let newArr = pText.current.innerHTML.split(" ");
-      more
-        ? (newArr = sourceText.slice(0, newArr.length + chLength))
-        : (newArr = newArr.slice(0, newArr.length + chLength));
+    const resizeText = (text, accessHeight, textHeight) => {
+      let newArr = text.current.innerHTML.split(" ");
+      let colWord = newArr.length;
+      let chLength = Math.floor((colWord * accessHeight) / textHeight);
+      newArr = newArr.slice(0, chLength);
       newArr.push("...");
-      pText.current.innerHTML = newArr.join(" ");
+      text.current.innerHTML = newArr.join(" ");
     };
 
-    if (useHeight >= heightBlock) {
-      while (useHeight > heightBlock) {
-        resizeText(pText, -2, false);
-        useHeight = pText.current.clientHeight + pText.current.offsetTop + 42;
-      }
-    } else if (heightText < heigthAccessText) {
-      while (heightText < heigthAccessText) {
-        resizeText(pText, 1, true);
-        heightText = pText.current.clientHeight + 10;
-      }
+    if (heightTitle > heightWrapper) {
+      resizeText(pTitle, heightWrapper - 10, heightTitle);
+      pText.current.innerHTML = "";
+    } else if (heigthAccessText <= 0) {
+      pText.current.innerHTML = "";
+    } else if (heigthAccessText < heightText) {
+      resizeText(pText, heigthAccessText, heightText);
     }
-  }, [width, sourceText]);
+  }, [width]);
 
   return (
     <li className="elements__item">
@@ -86,18 +85,18 @@ const Card = ({ card, isLogged, handleClick, pageSaved }) => {
           <span className={classTooltip}></span>
         </div>
       </div>
-      <img className="elements__img" alt="img" src={card.srcImg} />
-      <p className="elements__data">{card.dateNews}</p>
+      <img className="elements__img" alt="img" src={card.image} />
+      <p className="elements__data">{formatDateApi(card.date)}</p>
       <div className="elements__footer">
         <div className="elements__wrapper" ref={wrap}>
           <h2 className="elements__title" ref={pTitle}>
-            {card.titleNews}
+            {card.title}
           </h2>
           <p className="elements__text" ref={pText}>
-            {card.textNews}
+            {card.text}
           </p>
         </div>
-        <p className="elements__source">{card.sourceNews}</p>
+        <p className="elements__source">{card.source}</p>
       </div>
     </li>
   );

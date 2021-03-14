@@ -31,6 +31,9 @@
 .elements__mark-liked {
   background-image: url("../../images/rectangleMarked.svg");
 }
+.elements__mark-liked:hover {
+  cursor: pointer;
+}
 
 .elements__mark:hover {
   background-image: url("../../images/rectangleHover.svg");
@@ -57,7 +60,6 @@
 .elements__img {
   height: 272px;
   width: 100%;
-  object-fit: cover;
   box-sizing: border-box;
   margin: 0;
   padding: 0;

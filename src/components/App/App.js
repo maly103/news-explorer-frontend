@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
@@ -8,12 +8,14 @@ import Main from "../Main/Main";
 import About from "../About/About";
 import Register from "../Register/Register";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
-import { data, validateForm, itemsCard } from "../../utils/config";
+import ProtectedRouted from "../ProtectedRouted/ProtectedRouted";
+import { data, validateForm, defineContent } from "../../utils/config";
 import { CurrentUserContext } from "../../context/currentUserContext";
-import NewsCardList from "../NewsCardList/NewsCardList";
-import Preloader from "../Preloader/Preloader";
-import Notfounded from "../Notfounded/Notfounded";
 import SavedNews from "../SavedNews/SavedNews";
+import newsApi from "../../utils/NewsApi";
+import mainApi from "../../utils/MainApi";
+import { formatDate } from "../../utils/utils";
+import * as newsAuth from "../../utils/newsAuth";
 
 function App() {
   const [isLoginPopupFormOpen, setLoginPopupFormOpenState] = useState(false);
@@ -23,56 +25,85 @@ function App() {
   const [infoTooltip, setInfoTooltipState] = useState({
     isInfoTooltipPopupOpen: false,
     textReg: "",
+    login: true,
   });
   const [loggedIn, setLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
   const [userData, setUserData] = useState({
     email: "",
     password: "",
     userName: "",
   });
-  const [searchText, setSearchText] = useState("");
+
   const [isUserExist, setUserExist] = useState(false);
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isErr, setIsErr] = useState(false);
   const [isLightHeader, setIsLightHeader] = useState(false);
-  const [savedCards, setsavedCards] = useState([]);
+  const [savedCards, setSavedCards] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
 
   const handleClickMobile = (mobile) => {
     setIsMobile(mobile);
   };
   const handleLogin = (email, password) => {
-    let login;
-    userData.userName ? (login = userData.userName) : (login = "Грета");
-    setCurrentUser({
-      email: email,
-      password: password,
-      userName: login,
-    });
-    setLoggedIn(true);
+    newsAuth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setUserData({
+            email: email,
+            password: password,
+            userName: data.name,
+          });
+          setLoggedIn(true);
+        }
+      })
+      .catch((err) => {
+        setInfoTooltipState({
+          isInfoTooltipPopupOpen: true,
+          textReg: "Что-то пошло не так!",
+        });
+        console.error(err);
+      });
+
     closeAllPopups();
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("articles");
+    setUserData({
+      email: "",
+      password: "",
+      userName: "",
+    });
     setLoggedIn(false);
+    setCards(null);
   };
 
-  const handleRegister = (email, password, userName) => {
-    if (email === "test@test.ru") {
-      setUserExist(true);
-    } else {
-      closeAllPopups();
-      setInfoTooltipState({
-        isInfoTooltipPopupOpen: true,
-        textReg: "Пользователь успешно зарегистрирован!",
+  const handleRegister = (email, password, name) => {
+    newsAuth
+      .register(email, password, name)
+      .then((data) => {
+        if (data) {
+          setInfoTooltipState({
+            isInfoTooltipPopupOpen: true,
+            textReg: "Вы успешно зарегистрировались!",
+          });
+        }
+      })
+      .catch((err) => {
+        if (err === 409) {
+          setUserExist(true);
+        } else {
+          setInfoTooltipState({
+            isInfoTooltipPopupOpen: true,
+            textReg: "Что-то пошло не так!",
+            login: false,
+          });
+        }
       });
-      setUserData({
-        email: email,
-        password: password,
-        userName: userName,
-      });
-    }
   };
 
   const handleClickLogin = () => {
@@ -97,55 +128,165 @@ function App() {
     setInfoTooltipState(false);
   };
 
+  const errMessage = (isErr) => {
+    if (!isErr) return null;
+    return (
+      <h2>
+        Во время запроса произошла ошибка. Возможно, проблема с соединением или
+        сервер недоступен. Подождите немного и попробуйте ещё раз
+      </h2>
+    );
+  };
+
   const handleUpdateSearch = (searchKeyword) => {
+    setIsErr(false);
     setIsLoading(true);
-    setSearchText(searchKeyword);
+    const dateFrom = formatDate(new Date(new Date() - 604800 * 1000));
+    const dateTo = formatDate(new Date());
+    newsApi
+      .getArticles(searchKeyword, dateFrom, dateTo)
+      .then((res) => {
+        const articles = res.articles.map((item) => {
+          return {
+            _id: item.url,
+            keyword: searchKeyword,
+            image: item.urlToImage,
+            date: item.publishedAt,
+            title: item.title,
+            text: item.description,
+            source: item.source.name,
+            content: item.content,
+            isLiked: false,
+          };
+        });
+        localStorage.setItem("articles", JSON.stringify(articles));
+
+        setCards(articles);
+      })
+      .catch((err) => {
+        setIsErr(err);
+      })
+      .finally((_) => {
+        setIsLoading(false);
+      });
   };
 
   const handleClickCardMark = (cardMarked) => {
-    savedCards.push(cardMarked);
-    setsavedCards(savedCards);
+    if (!cardMarked.isLiked) {
+      mainApi
+        .addCard(cardMarked)
+        .then((res) => {
+          res.isLiked = true;
+          const newCards = cards.map((elem) =>
+            res.link === elem._id ? res : elem
+          );
+          setCards(newCards);
+          localStorage.setItem("articles", JSON.stringify(newCards));
+        })
+        .catch((err) => {
+          setInfoTooltipState({
+            isInfoTooltipPopupOpen: true,
+            textReg: "Что-то пошло не так!",
+            login: false,
+          });
+          console.log(err);
+        });
+    } else {
+      mainApi
+        .deleteCard(`articles/${cardMarked._id}`)
+        .then((res) => {
+          const newCards = cards.map((elem) => {
+            if (res.art._id === elem._id) {
+              elem.isLiked = false;
+              elem._id = res.art.link;
+            }
+            return elem;
+          });
+
+          setCards(newCards);
+          localStorage.setItem("articles", JSON.stringify(newCards));
+        })
+        .catch((error) => {
+          setInfoTooltipState({
+            isInfoTooltipPopupOpen: true,
+            textReg: "Что-то пошло не так!",
+            login: false,
+          });
+          console.log(error);
+        });
+    }
   };
 
   const handleClickHeader = (theme) => {
     setIsLightHeader(theme);
   };
+  const handleDeleteCard = (cardId) => {
+    mainApi
+      .deleteCard(`articles/${cardId}`)
+      .then((res) => {
+        const newCards = savedCards.filter((elem) => res.art._id !== elem._id);
 
-  const handleClickDelete = (card) => {
-    const newCards = savedCards.filter((elem) => card.id !== elem.id);
-    setsavedCards(newCards);
+        const newLikeCards = cards.map((elem) => {
+          if (res.art._id === elem._id) {
+            elem.isLiked = false;
+            elem._id = res.art.link;
+          }
+          return elem;
+        });
+        setCards(newLikeCards);
+        setSavedCards(newCards);
+        localStorage.setItem("articles", JSON.stringify(newLikeCards));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  const defineContent = () => {
-    if (cards.length > 0) {
-      return (
-        <NewsCardList
-          cards={cards}
-          isLogged={loggedIn}
-          handleClickCardMark={handleClickCardMark}
-        />
-      );
-    } else if (cards.length === 0 && searchText) {
-      return <Notfounded />;
+  const tokenCheck = () => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      newsAuth
+        .getContent(jwt)
+        .then((res) => {
+          if (res) {
+            setUserData({
+              email: res.email,
+              password: res.password,
+              userName: res.name,
+            });
+            setLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   };
 
   useEffect(() => {
-    if (isLoading) {
-      const arrCards = [];
-      itemsCard.forEach((item) => {
-        if (item.keyword.toLowerCase() === searchText.toLowerCase()) {
-          arrCards.push(item);
-        }
-      });
-      setIsLoading(false);
-      setCards(arrCards);
+    tokenCheck();
+  }, []);
+
+  useEffect(() => {
+    setCards(JSON.parse(localStorage.getItem("articles")));
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      mainApi
+        .getAllCards()
+        .then((data) => {
+          setSavedCards(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  }, [isLoading, searchText]);
+  }, [cards, loggedIn]);
 
   return (
     <div className="app-wrap">
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={userData}>
         <Header
           handleClickLogin={handleClickLogin}
           handleLogout={handleLogout}
@@ -160,11 +301,13 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Main
+              handleLogin={handleClickLogin}
               handleUpdateSearch={handleUpdateSearch}
               mobile={isMobile}
               themeHeader={handleClickHeader}
             />
-            {isLoading ? <Preloader /> : defineContent()}
+            {errMessage(isErr)}
+            {defineContent(cards, isLoading, loggedIn, handleClickCardMark)}
             <About />
             <Login
               isOpen={isLoginPopupFormOpen}
@@ -186,18 +329,15 @@ function App() {
               handleClickLogin={handleClickLogin}
             />
           </Route>
-
-          <Route path="/news">
-           {!loggedIn ? (
-              <Redirect exact to="/" />
-            ) : (
-              <SavedNews
-                savedCards={savedCards}
-                handleClickDelete={handleClickDelete}
-                themeHeader={handleClickHeader}
-              />
-            )}
-          </Route>
+          <ProtectedRouted
+            path="/news"
+            loggedIn={loggedIn}
+            component={SavedNews}
+            isLogged={loggedIn}
+            savedCards={savedCards}
+            handleDeleteCard={handleDeleteCard}
+            themeHeader={handleClickHeader}
+          />
         </Switch>
 
         <Footer />

@@ -6,7 +6,7 @@ import "./NewsCardList";
 const NewsCardList = ({ cards, isLogged, handleClickCardMark }) => {
   const countNews = cards.length;
   const [countCards, setCountCards] = useState(3);
-
+  console.log(cards);
   const handleShowMore = () => {
     let stateCount = countCards + 3;
     setCountCards(stateCount);
@@ -16,18 +16,20 @@ const NewsCardList = ({ cards, isLogged, handleClickCardMark }) => {
     countCards >= countNews ? "button__show__blocked" : "button__show__more"
   }`;
   const disabledButton = `${countCards >= countNews ? "disabled" : ""}`;
+ 
+
   return (
     <section className="block__news">
       <p className="block__title">Результаты поиска</p>
       <ul className="elements">
         {cards.slice(0, countCards).map((item) => (
-          <Card
-            key={item.id}
+          
+           <Card
+            key={item._id}
             card={item}
             isLogged={isLogged}
             handleClick={handleClickCardMark}
-            pageSaved={false}
-          />
+            />
         ))}
       </ul>
       <button

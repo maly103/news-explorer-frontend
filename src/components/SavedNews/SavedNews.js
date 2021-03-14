@@ -3,8 +3,11 @@ import "./SavedNews.css";
 import Card from "../Card/Card";
 import { CurrentUserContext } from "../../context/currentUserContext";
 
-const SavedNews = ({ savedCards, handleClickDelete, themeHeader }) => {
+const SavedNews = ({ isLogged, savedCards, handleDeleteCard, themeHeader }) => {
   const currentUser = React.useContext(CurrentUserContext);
+  const handleClickDelete = (card) => {
+    handleDeleteCard(card._id);
+  };
   const strSavedNews = () => {
     const countNews = savedCards.length;
     let x;
@@ -34,31 +37,45 @@ const SavedNews = ({ savedCards, handleClickDelete, themeHeader }) => {
       y;
     return strTitle;
   };
+
   const newsKeywords = () => {
     const keywords = savedCards.map((item) => item.keyword);
-    let result = [];
-    for (let str of keywords) {
-      if (!result.includes(str)) {
-        result.push(str);
-      }
+    const result = keywords.reduce((sumKeywords, item) => {
+      return typeof sumKeywords[item] !== "undefined"
+        ? { ...sumKeywords, [item]: sumKeywords[item] + 1 }
+        : { ...sumKeywords, [item]: 1 };
+    }, {});
+    let arr = [];
+    for (let key in result) {
+      arr.push({ name: key, col: result[key] });
     }
-    if (result.length > 2) {
-      const countKeywords = result.length - 2;
-      return (
-        "По ключевым словам: " +
-        result[0] +
-        ", " +
-        result[1] +
-        " и " +
-        countKeywords +
-        "-м другим"
-      );
-    } else if (result.length === 2) {
-      return "По ключевым словам: " + result[0] + ", " + result[1];
-    } else {
-      return "По ключевым словам: " + result[0];
+    arr.sort((a, b) => (a.col < b.col ? 1 : -1));
+
+    let str = "По ключевым словам: ";
+    switch (arr.length) {
+      case 0:
+        break;
+      case 1:
+        str += arr.name[0];
+        break;
+      case 2:
+        str += arr[0].name + ", " + arr[1].name;
+        break;
+      default:
+        str +=
+          arr[0].name +
+          ", " +
+          arr[1].name +
+          " и " +
+          +arr.length -
+          2 +
+          "-м другим";
+        break;
     }
+
+    return str;
   };
+
   useEffect(() => {
     themeHeader(true);
   }, [themeHeader]);
@@ -75,11 +92,10 @@ const SavedNews = ({ savedCards, handleClickDelete, themeHeader }) => {
         <ul className="gallery">
           {savedCards.map((item) => (
             <Card
-              key={item.id}
+              key={item._id}
               card={item}
               isLogged={true}
               handleClick={handleClickDelete}
-              pageSaved={true}
             />
           ))}
         </ul>

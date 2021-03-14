@@ -15,7 +15,7 @@ const Login = ({ isOpen, onClose, handleLogin, handleClickRegister }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let { email, password } = data;
+    let { pochta:email, pass:password } = data;
     handleLogin(email, password);
   };
 
