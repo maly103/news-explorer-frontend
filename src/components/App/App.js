@@ -103,8 +103,8 @@ function App() {
             login: false,
           });
         }
-      });
-  };
+      })
+    };
 
   const handleClickLogin = () => {
     closeAllPopups();
@@ -119,6 +119,7 @@ function App() {
     const blockFormRegister = document.querySelector(
       ".popup__container_register"
     );
+    setUserExist(false);
     validateForm(data, blockFormRegister);
   };
 
@@ -139,6 +140,7 @@ function App() {
   };
 
   const handleUpdateSearch = (searchKeyword) => {
+    if(searchKeyword){
     setIsErr(false);
     setIsLoading(true);
     const dateFrom = formatDate(new Date(new Date() - 604800 * 1000));
@@ -168,7 +170,7 @@ function App() {
       })
       .finally((_) => {
         setIsLoading(false);
-      });
+      });}
   };
 
   const handleClickCardMark = (cardMarked) => {
