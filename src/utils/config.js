@@ -21,7 +21,8 @@ export const defineContent = (
   cards,
   isLoading,
   loggedIn,
-  handleClickCardMark
+  handleClickCardMark,
+  handleClickRegister
 ) => {
   if (isLoading) return <Preloader />;
   if (cards === null) return null;
@@ -32,6 +33,7 @@ export const defineContent = (
       cards={cards}
       isLogged={loggedIn}
       handleClickCardMark={handleClickCardMark}
+      hadleClickReg={handleClickRegister}
     />
   );
 };

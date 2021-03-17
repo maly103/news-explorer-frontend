@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { formatDateApi } from "../../utils/utils";
 import "./Card.css";
 
-const Card = ({ card, isLogged, handleClick }) => {
+const Card = ({ card, isLogged, handleClick, hadleClickReg }) => {
   let history = useHistory();
   let pageSaved = history.location.pathname === "/news";
   const [isLiked, setIsLiked] = useState(card.isLiked);
@@ -40,7 +40,9 @@ const Card = ({ card, isLogged, handleClick }) => {
       isLogged ? "tooltip__disabled" : ""
     }`;
   }
-
+  const handleRegister = () => {
+    hadleClickReg();
+  };
   const handleCardClick = () => {
     if (!pageSaved) {
       setIsLiked(!isLiked);
@@ -80,7 +82,7 @@ const Card = ({ card, isLogged, handleClick }) => {
         <p className={classKeyword}>{card.keyword}</p>
         <div
           className={classMark}
-          onClick={isLogged ? handleCardClick : () => {}}
+          onClick={isLogged ? handleCardClick : handleRegister}
         >
           <span className={classTooltip}></span>
         </div>

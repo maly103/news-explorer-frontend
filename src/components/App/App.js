@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
@@ -18,6 +18,12 @@ import { formatDate } from "../../utils/utils";
 import * as newsAuth from "../../utils/newsAuth";
 
 function App() {
+  let location = useLocation();
+
+  const history = useHistory();
+  const locationState = location.state;
+  const wasRedirected = locationState && !locationState.Logged;
+
   const [isLoginPopupFormOpen, setLoginPopupFormOpenState] = useState(false);
   const [isRegisterPopupFormOpen, setRegisterPopupFormOpenState] = useState(
     false
@@ -65,9 +71,10 @@ function App() {
           textReg: "Что-то пошло не так!",
         });
         console.error(err);
+      })
+      .finally(() => {
+        closeAllPopups();
       });
-
-    closeAllPopups();
   };
 
   const handleLogout = () => {
@@ -103,8 +110,8 @@ function App() {
             login: false,
           });
         }
-      })
-    };
+      });
+  };
 
   const handleClickLogin = () => {
     closeAllPopups();
@@ -140,37 +147,38 @@ function App() {
   };
 
   const handleUpdateSearch = (searchKeyword) => {
-    if(searchKeyword){
-    setIsErr(false);
-    setIsLoading(true);
-    const dateFrom = formatDate(new Date(new Date() - 604800 * 1000));
-    const dateTo = formatDate(new Date());
-    newsApi
-      .getArticles(searchKeyword, dateFrom, dateTo)
-      .then((res) => {
-        const articles = res.articles.map((item) => {
-          return {
-            _id: item.url,
-            keyword: searchKeyword,
-            image: item.urlToImage,
-            date: item.publishedAt,
-            title: item.title,
-            text: item.description,
-            source: item.source.name,
-            content: item.content,
-            isLiked: false,
-          };
-        });
-        localStorage.setItem("articles", JSON.stringify(articles));
+    if (searchKeyword) {
+      setIsErr(false);
+      setIsLoading(true);
+      const dateFrom = formatDate(new Date(new Date() - 604800 * 1000));
+      const dateTo = formatDate(new Date());
+      newsApi
+        .getArticles(searchKeyword, dateFrom, dateTo)
+        .then((res) => {
+          const articles = res.articles.map((item) => {
+            return {
+              _id: item.url,
+              keyword: searchKeyword,
+              image: item.urlToImage,
+              date: item.publishedAt,
+              title: item.title,
+              text: item.description,
+              source: item.source.name,
+              content: item.content,
+              isLiked: false,
+            };
+          });
+          localStorage.setItem("articles", JSON.stringify(articles));
 
-        setCards(articles);
-      })
-      .catch((err) => {
-        setIsErr(err);
-      })
-      .finally((_) => {
-        setIsLoading(false);
-      });}
+          setCards(articles);
+        })
+        .catch((err) => {
+          setIsErr(err);
+        })
+        .finally((_) => {
+          setIsLoading(false);
+        });
+    }
   };
 
   const handleClickCardMark = (cardMarked) => {
@@ -270,6 +278,13 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (wasRedirected) {
+      handleClickLogin();
+      history.replace("/");
+    }
+  }, [wasRedirected]);
+
+  useEffect(() => {
     setCards(JSON.parse(localStorage.getItem("articles")));
   }, []);
 
@@ -303,13 +318,18 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Main
-              handleLogin={handleClickLogin}
               handleUpdateSearch={handleUpdateSearch}
               mobile={isMobile}
               themeHeader={handleClickHeader}
             />
             {errMessage(isErr)}
-            {defineContent(cards, isLoading, loggedIn, handleClickCardMark)}
+            {defineContent(
+              cards,
+              isLoading,
+              loggedIn,
+              handleClickCardMark,
+              handleClickRegister
+            )}
             <About />
             <Login
               isOpen={isLoginPopupFormOpen}
@@ -331,11 +351,11 @@ function App() {
               handleClickLogin={handleClickLogin}
             />
           </Route>
+
           <ProtectedRouted
             path="/news"
             loggedIn={loggedIn}
             component={SavedNews}
-            isLogged={loggedIn}
             savedCards={savedCards}
             handleDeleteCard={handleDeleteCard}
             themeHeader={handleClickHeader}

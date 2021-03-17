@@ -3,8 +3,9 @@ import "./SavedNews.css";
 import Card from "../Card/Card";
 import { CurrentUserContext } from "../../context/currentUserContext";
 
-const SavedNews = ({ isLogged, savedCards, handleDeleteCard, themeHeader }) => {
+const SavedNews = ({ savedCards, handleDeleteCard, themeHeader }) => {
   const currentUser = React.useContext(CurrentUserContext);
+
   const handleClickDelete = (card) => {
     handleDeleteCard(card._id);
   };
@@ -56,7 +57,7 @@ const SavedNews = ({ isLogged, savedCards, handleDeleteCard, themeHeader }) => {
       case 0:
         break;
       case 1:
-        str += arr.name[0];
+        str += arr[0].name;
         break;
       case 2:
         str += arr[0].name + ", " + arr[1].name;
@@ -67,8 +68,7 @@ const SavedNews = ({ isLogged, savedCards, handleDeleteCard, themeHeader }) => {
           ", " +
           arr[1].name +
           " и " +
-          +arr.length -
-          2 +
+          +(arr.length - 2) +
           "-м другим";
         break;
     }

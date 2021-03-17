@@ -12,8 +12,8 @@ export function formatDate(today) {
 }
 
 export function formatDateApi(strDate) {
-  let today = new Date(strDate);
-  let arrMonth = [
+  const today = new Date(strDate);
+  const arrMonth = [
     "января",
     "февраля",
     "марта",
@@ -27,11 +27,9 @@ export function formatDateApi(strDate) {
     "ноября",
     "декабря",
   ];
-  let dayOfMonth = today.getDate();
-  let month = arrMonth[today.getMonth()];
-  let year = today.getFullYear();
-
-  year = year.toString();
+  const dayOfMonth = today.getDate();
+  const month = arrMonth[today.getMonth()];
+  const year = today.getFullYear().toString();
 
   return `${dayOfMonth} ${month}, ${year}`;
 }

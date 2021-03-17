@@ -1,15 +1,9 @@
 import React, { useEffect } from "react";
 import "./Main.css";
 import SearchForm from "../SearchForm/SearchForm";
-import { useHistory } from "react-router-dom";
 
-const Main = ({ handleLogin, handleUpdateSearch, mobile, themeHeader }) => {
-  const history = useHistory();
+const Main = ({ handleUpdateSearch, mobile, themeHeader }) => {
   const coverClass = `cover  ${mobile ? "cover__mobile" : ""}`;
-
-  useEffect(() => {
-    if (history.action === "REPLACE") handleLogin();
-  });
 
   useEffect(() => {
     themeHeader(false);
