@@ -52,7 +52,6 @@ function App() {
     setIsMobile(mobile);
   };
   const handleLogin = (email, password) => {
-    
     newsAuth
       .authorize(email, password)
       .then((data) => {
@@ -65,6 +64,7 @@ function App() {
           });
           setLoggedIn(true);
         }
+        closeAllPopups();
       })
       .catch((err) => {
         setLoginPopupFormOpenState(false);
@@ -73,8 +73,7 @@ function App() {
           textReg: "Что-то пошло не так!",
         });
         console.error(err);
-      })
-      
+      });
   };
 
   const handleLogout = () => {
